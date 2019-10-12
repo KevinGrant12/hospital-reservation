@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -32,11 +33,14 @@ public class AppointmentServlet extends HttpServlet {
 		String last = request.getParameter("lastname");
 		String day = request.getParameter("day");
 //		String sql = "INSERT INTO \"Reservations\" " + "VALUES(\'first\',\'last\', \'day\')";
-		String sql = "INSERT INTO public.\"Reservations\"(\r\n" + 
-				"	\"Last\", \"First\", \"Day\")\r\n" + 
-				"	VALUES (\'first\', \'last\', \'day\');";
+//		String sql = "INSERT INTO public.\"Reservations\"(\r\n" + 
+//				"	\"Last\", \"First\", \"Day\")\r\n" + 
+//				"	VALUES (\'first\', \'last\', \'day\');";
 //    	String query = "SELECT * FROM \"Reservations\"";
 		
+		String sql = "INSERT INTO \"Reservations\"(\r\n" + 
+	            "   \"Last\", \"First\", \"Day\")\r\n" + 
+	            "   VALUES (?, ?, ?);";
 		
 		Connection c = null;
     	Statement stmt = null;
@@ -52,8 +56,13 @@ public class AppointmentServlet extends HttpServlet {
     		stmt = c.createStatement();
     		c.commit();
     		
+    		PreparedStatement preparedStatement = c.prepareStatement(sql);
+    		preparedStatement.setString(1, last);
+    		preparedStatement.setString(2, first);
+    		preparedStatement.setString(3, day);
+    		preparedStatement.execute();
     		
-    		stmt.executeUpdate(sql);
+//    		stmt.executeUpdate(sql);
 //    		while ( rs.next() ) {
 //    			String firstname = rs.getString("first");
 //    			String lastname = rs.getString("last");
