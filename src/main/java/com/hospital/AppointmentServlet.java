@@ -54,13 +54,13 @@ public class AppointmentServlet extends HttpServlet {
     		System.out.println("C: " + c);
     		
     		stmt = c.createStatement();
-    		c.commit();
     		
     		PreparedStatement preparedStatement = c.prepareStatement(sql);
     		preparedStatement.setString(1, last);
     		preparedStatement.setString(2, first);
     		preparedStatement.setString(3, day);
     		preparedStatement.execute();
+    		c.commit();
     		
 //    		stmt.executeUpdate(sql);
 //    		while ( rs.next() ) {
